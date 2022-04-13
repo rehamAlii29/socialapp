@@ -24,6 +24,7 @@ import 'package:socialapp/models/PostModel.dart';
 class SocialLayOutCubit extends Cubit<SocialLayOutStates> {
   SocialLayOutCubit() : super(SocialLayoutinitialState());
   static SocialLayOutCubit get(context) => BlocProvider.of(context);
+  UserModel userModel = UserModel();
   UserModel? userdata = UserModel();
   getUserData() {
     emit(socialLayOutLoading());
@@ -42,7 +43,7 @@ class SocialLayOutCubit extends Cubit<SocialLayOutStates> {
 
   List<Widget> Screens = [
     const Feeds(),
-    const Chats(),
+     Chats(),
     Post(),
     const Users(),
     AppSettings()
@@ -63,6 +64,8 @@ class SocialLayOutCubit extends Cubit<SocialLayOutStates> {
       currentIndex = index;
     }
     emit(changeNavigationbarstate());
+    // هوا جاب getall users فى دوسة الاندكس
+    //انا جبتها فى الbuild بتاعت الشات :D كل الطرق تؤدى الى روما
   }
 
 // picking profile image
@@ -306,8 +309,21 @@ class SocialLayOutCubit extends Cubit<SocialLayOutStates> {
       }
     });
   }
+  List<UserModel> allusers=[];
+  CollectionReference usercollection =FirebaseFirestore.instance.collection('Users');
+getAllUsers()async {
+ // allusers = [];
 
-  emitb3dkol7aga() {
-    emit(emitkol7aga());
-  }
+
+  await  FirebaseFirestore.instance.collection('Users').snapshots().listen((event) {
+     allusers = [];
+      for (var user in event.docs) {
+        if (user.data()['userId']!=userdata!.userId) {
+
+        allusers.add(UserModel.FromFirebase(user.data()));
+      }}
+    });
+
+
+}
 }

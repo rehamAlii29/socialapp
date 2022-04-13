@@ -30,6 +30,7 @@ class _SocialLayOutState extends State<SocialLayOut> {
       return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            elevation: 0,
             actions: [
               IconButton(
                   onPressed: () {},
