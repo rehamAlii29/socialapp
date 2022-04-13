@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socialapp/States/SocialLayoutState.dart';
 import 'package:socialapp/UseModel.dart';
 
+import '../MassegesScreen.dart';
 import '../SocialLayoutCubit.dart';
 
 class Chats extends StatefulWidget {
@@ -51,35 +52,43 @@ class _ChatsState extends State<Chats> {
     );
   }
 }
-buildUserItem(BuildContext context , UserModel allusers){
-  return Row(
-    children: [
-      CircleAvatar(
-        radius: 25,
-        backgroundImage: NetworkImage(
-            "${allusers.image}"),
-      ),
-      const SizedBox(
-        width: 10,
-      ),
-      Expanded(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+buildUserItem(BuildContext context , UserModel allusers, ){
+  return GestureDetector(
+    onTap: (){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>MessegesScreen(allusers)));
+    },
+    child: Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 25,
+            backgroundImage: NetworkImage(
+                "${allusers.image}"),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+            Row(
             children: [
-        Row(
-        children: [
-        Row(
-        children: [
-        Text(
-        "${allusers.name}",
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1
-            ?.copyWith(
-          height: 1.3,
-        ),
-      ),])
-    ],)])
-      )]);
+            Row(
+            children: [
+            Text(
+            "${allusers.name}",
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(
+              height: 1.3,
+            ),
+          ),])
+        ],)])
+          )]),
+    ),
+  );
 }

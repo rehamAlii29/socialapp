@@ -94,4 +94,6 @@ class updatepostphotosuccess extends SocialLayOutStates {}
 //
 class GetCommentsStateSuccess extends SocialLayOutStates {}
 
-class emitkol7aga extends SocialLayOutStates {}
+// chats
+class SendMassegesSuccess extends SocialLayOutStates{}
+class GetMassegesSuccess extends SocialLayOutStates{}

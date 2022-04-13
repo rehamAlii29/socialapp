@@ -18,6 +18,7 @@ import 'package:socialapp/States/SocialLayoutState.dart';
 import 'package:socialapp/UseModel.dart';
 // ignore: unused_import
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:socialapp/models/ChatModel.dart';
 import 'package:socialapp/models/Commentmodel.dart';
 import 'package:socialapp/models/PostModel.dart';
 
@@ -325,5 +326,51 @@ getAllUsers()async {
     });
 
 
+}//
+sendMassege({
+    String? reciverId,
+  String?msaage,
+  String?datetime
+
+}){
+  ChatModel chatModel = ChatModel(
+    senderId: userdata!.userId ,
+    reciverId: reciverId,
+    dateTime: datetime,
+    message: msaage
+  );
+  FirebaseFirestore.instance.collection('Users').doc(userdata!.userId).
+  collection('Chats').doc(reciverId).collection('Massges').
+  add(chatModel.tofirebase()).then((value) {
+    emit(SendMassegesSuccess());
+  });
+  FirebaseFirestore.instance.collection('Users').doc(reciverId).
+  collection('Chats').doc(userdata!.userId).collection('Massges').
+  add(chatModel.tofirebase()).then((value) {
+    emit(SendMassegesSuccess());
+  });
 }
+List<ChatModel> masseges =[];
+getMassages({String?recieverId}){
+  FirebaseFirestore.instance.collection('Users').doc(userdata!.userId).
+  collection('Chats').doc(recieverId).collection('Massges')
+      .orderBy('dateTime').snapshots().listen((event) {
+masseges = [];
+
+        for(var masssege in event.docs)
+          {
+            masseges.add(ChatModel.fromFibrebase(masssege.data()));
+
+
+          }
+  });
+  emit(GetMassegesSuccess());
 }
+
+
+
+}
+
+
+
+
